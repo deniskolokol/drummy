@@ -372,23 +372,19 @@
 // TODO: select and separate open hats (see next section)
 // Hi Hat (closed)
 ~hihat = ~hat.("1_A#1_Hat_SP.wav");
+~hihat = ~hat.("1_B2_Hat_SP.wav");
 ~hihat = ~hat.("1_A#2_Hat_SP.wav");
 ~hihat = ~hat.("1_A#3_Hat_SP.wav");
-~hihat = ~hat.("1_A#4_Hat_SP.wav");
 ~hihat = ~hat.("1_A#5_Hat_SP.wav");
-~hihat = ~hat.("1_A1_Hat_SP.wav");
 ~hihat = ~hat.("1_A2_Hat_SP.wav");
 ~hihat = ~hat.("1_A3_Hat_SP.wav");
 ~hihat = ~hat.("1_A4_Hat_SP.wav");
 ~hihat = ~hat.("1_A5_Hat_SP.wav");
-~hihat = ~hat.("1_B1_Hat_SP.wav");
-~hihat = ~hat.("1_B2_Hat_SP.wav");
 ~hihat = ~hat.("1_B3_Hat_SP.wav");
-~hihat = ~hat.("1_B4_Hat_SP.wav");
 ~hihat = ~hat.("1_B5_Hat_SP.wav");
 ~hihat = ~hat.("1_C#1_Hat_SP.wav");
 ~hihat = ~hat.("1_C#2_Hat_SP.wav");
-~hihat = ~hat.("1_C#3_Hat_SP.wav");
+~hihat = ~hat.("1_C#3_Hat_SP.wav"); // TODO: open-close hat?
 ~hihat = ~hat.("1_C#4_Hat_SP.wav");
 ~hihat = ~hat.("1_C#5_Hat_SP.wav");
 ~hihat = ~hat.("1_C1_Hat_SP.wav");
@@ -417,41 +413,45 @@
 ~hihat = ~hat.("1_F#5_Hat_SP.wav");
 ~hihat = ~hat.("1_F1_Hat_SP.wav");
 ~hihat = ~hat.("1_F2_Hat_SP.wav");
-~hihat = ~hat.("1_F3_Hat_SP.wav");
 ~hihat = ~hat.("1_F4_Hat_SP.wav");
 ~hihat = ~hat.("1_F5_Hat_SP.wav");
-~hihat = ~hat.("1_G#1_Hat_SP.wav");
-~hihat = ~hat.("1_G#2_Hat_SP.wav");
 ~hihat = ~hat.("1_G#3_Hat_SP.wav");
 ~hihat = ~hat.("1_G#4_Hat_SP.wav");
 ~hihat = ~hat.("1_G#5_Hat_SP.wav");
 ~hihat = ~hat.("1_G1_Hat_SP.wav");
-~hihat = ~hat.("1_G2_Hat_SP.wav");
-~hihat = ~hat.("1_G3_Hat_SP.wav");
 ~hihat = ~hat.("1_G4_Hat_SP.wav");
-~hihat = ~hat.("1_G5_Hat_SP.wav");
 ~hihat = ~hat.("2_A#1_Hat_SP.wav");
 ~hihat = ~hat.("2_A1_Hat_SP.wav");
 ~hihat = ~hat.("2_B1_Hat_SP.wav");
 ~hihat = ~hat.("2_C#1_Hat_SP.wav");
 ~hihat = ~hat.("2_C#2_Hat_SP.wav");
 ~hihat = ~hat.("2_C1_Hat_SP.wav");
-~hihat = ~hat.("2_C2_Hat_SP.wav");
 ~hihat = ~hat.("2_D#1_Hat_SP.wav");
 ~hihat = ~hat.("2_D#2_Hat_SP.wav");
 ~hihat = ~hat.("2_D1_Hat_SP.wav");
 ~hihat = ~hat.("2_D2_Hat_SP.wav");
 ~hihat = ~hat.("2_E1_Hat_SP.wav");
 ~hihat = ~hat.("2_E2_Hat_SP.wav");
-~hihat = ~hat.("2_F#1_Hat_SP.wav");
-~hihat = ~hat.("2_F1_Hat_SP.wav");
 ~hihat = ~hat.("2_F2_Hat_SP.wav");
 ~hihat = ~hat.("2_G#1_Hat_SP.wav");
 ~hihat = ~hat.("2_G1_Hat_SP.wav");
 
 // Hi Hat (open)
-~ohat = ~hat.("1_C3_Hat_SP.wav");
 ~ohat = ~hat.("1_F#1_Hat_SP.wav");
+~ohat = ~hat.("1_G#1_Hat_SP.wav");
+~ohat = ~hat.("1_A1_Hat_SP.wav");
+~ohat = ~hat.("1_B1_Hat_SP.wav");
+~ohat = ~hat.("1_G2_Hat_SP.wav");
+~ohat = ~hat.("1_G#2_Hat_SP.wav");
+~ohat = ~hat.("1_C3_Hat_SP.wav");
+~ohat = ~hat.("1_F3_Hat_SP.wav");
+~ohat = ~hat.("1_G3_Hat_SP.wav");
+~ohat = ~hat.("1_A#4_Hat_SP.wav");
+~ohat = ~hat.("1_B4_Hat_SP.wav");
+~ohat = ~hat.("1_G5_Hat_SP.wav");
+~ohat = ~hat.("2_C2_Hat_SP.wav");
+~ohat = ~hat.("2_F1_Hat_SP.wav");
+~ohat = ~hat.("2_F#1_Hat_SP.wav");
 // TBC...
 
 // TODO: categorize
