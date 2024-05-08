@@ -369,7 +369,6 @@
 ~clap = ~clp.("1_G2_Clap_SP.wav");
 ~clap = ~clp.("1_G3_Clap_SP.wav");
 
-// TODO: select and separate open hats (see next section)
 // Hi Hat (closed)
 ~hihat = ~hat.("1_A#1_Hat_SP.wav");
 ~hihat = ~hat.("1_B2_Hat_SP.wav");
