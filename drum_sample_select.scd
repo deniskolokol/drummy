@@ -530,6 +530,3 @@
 ~perc = ~per.("2_F1_Perc_SP.wav");
 ~perc = ~per.("2_G#1_Perc_SP.wav");
 ~perc = ~per.("2_G1_Perc_SP.wav");
-
-
-

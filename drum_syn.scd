@@ -82,6 +82,7 @@ SynthDef(\snare, {
     // Give it some punch (add click).
     snd = snd + (SinOsc.ar(XLine.ar(3000, 100, 0.03)) * Env.perc(0.01, 0.03).ar);
 
+    // Add noise.
     snd = snd + (BPF.ar(Hasher.ar(Sweep.ar), bpfreq1, bprq1) * Env.perc(0.05, 0.1).ar * -3.dbamp);
 
     // Second layer of noise to make it less dull.
@@ -115,6 +116,65 @@ SynthDef(\snare, {
     Out.ar(out, snd);
 }).add;
 
+
+SynthDef(\tom, {
+    arg out=0, att=0.001, rel=0.6, curve=(-4), amp=0.56, pan=0,
+    bpfreq1=2120, bprq1=0.3, bpfreq2=4120, bprq2=0.6;
+
+    var snd, sndfreq;
+    sndfreq = 150 * (1 + (2 * Env.perc(0.001, 0.03).ar)) * [0.85, 0.82, 0.8, 0.77, 0.74];
+    snd = SinOsc.ar(sndfreq);
+    snd = snd * Env.perc(
+        [0, 0.001, 0.1,  0.3, 0.333],
+        [2,   0.4, 0.1, 0.05, 0.01]
+    ).ar;
+    snd = snd * [0, -20, -12, -24, -18, -22].dbamp;
+    snd = snd.sum;
+
+    // Give it some punch (add click).
+    snd = snd + (SinOsc.ar(XLine.ar(3000, 100, 0.03)) * Env.perc(0.01, 0.03).ar);
+
+    // Add noise.
+    snd = snd + (BPF.ar(Hasher.ar(Sweep.ar), bpfreq1, bprq1) * Env.perc(0.05, 0.1).ar * -3.dbamp);
+
+    // Parallel distortion.
+    snd = snd + ((snd * 13.dbamp).tanh * -10.dbamp);
+
+    snd = snd * Env.perc(att, rel, curve: curve).ar;
+
+    // Distortion can sound a little warmer if you cut the highs, then distort,
+    // them bring them back on.
+    // WARNING: always put distortion after the Env!
+    snd = BHiShelf.ar((LPF.ar(snd, 8000) * 2.dbamp).tanh, 8000, 10);
+
+    // Add some reverb and the second env so it can ring out.
+    // Important: GVerb is mono-to-stereo, avoiding Pan2!
+    snd = snd + (GVerb.ar(snd, 16, 2) * -30.dbamp);
+    snd = snd * Env.perc(0.001, 1, curve: curve).ar(Done.freeSelf);
+
+    snd = snd * amp;
+
+    Out.ar(out, snd);
+}).add;
+
+// SynthDef(\tom, {
+//     arg out=0, amp=1, att=0.05, rel=0.7, ffreq=1500, pan=0;
+//
+//     var freq = #[ 147.5224, 229, 310.3903, 392.7002, 473.7456 ];
+//     var mul = [0.05, 0.65, 0.1, 0.04, 0.01];
+//     var decay = #[0.5, 0.1];
+//     var gen = Mix.ar([
+//         LPF.ar(Pulse.ar(freq, 0.5, mul)),
+//         AllpassN.ar(
+//             BPF.ar(HPF.ar(WhiteNoise.ar(0.35), 500), ffreq), 0.05, [0.05.rand, 0.05.rand], 4
+//     )]);
+//     var env = Env.perc(att, rel, amp, curve: -4.0).kr(doneAction: Done.freeSelf);
+//     var signal = gen * env;
+//
+//     Out.ar(out, Pan2.ar(signal, pan))
+// }).add;
+
+
 SynthDef(\hihat, {
     arg out=0, amp=0.5, att=0.01, rel=0.2, ffreq=6000, pan=0;
     var env = EnvGen.kr(Env.perc(att, rel, amp), doneAction: Done.freeSelf);
@@ -125,25 +185,8 @@ SynthDef(\hihat, {
     signal = signal * env;
     Out.ar(out, Pan2.ar(signal, pan));
 }).add;
-
-
-SynthDef(\tom, {
-	arg out=0, amp=1, att=0.05, rel=0.7, ffreq=1500, pan=0;
-
-	var freq = #[ 147.5224, 229, 310.3903, 392.7002, 473.7456 ];
-	var mul = [0.05, 0.65, 0.1, 0.04, 0.01];
-	var decay = #[0.5, 0.1];
-	var gen = Mix.ar([
-		LPF.ar(Pulse.ar(freq, 0.5, mul)),
-		AllpassN.ar(
-			BPF.ar(HPF.ar(WhiteNoise.ar(0.35), 500), ffreq), 0.05, [0.05.rand, 0.05.rand], 4
-    )]);
-	var env = Env.perc(att, rel, amp, curve: -4.0).kr(doneAction: Done.freeSelf);
-    var signal = gen * env;
-
-    Out.ar(out, Pan2.ar(signal, pan))
-}).add;
 )
+
 
 (
 var introN = 10;
@@ -153,13 +196,6 @@ var baseQuant = 16;
 var stretch = 25/128 * baseQuant;
 var freq = 2;
 var measure = 1/baseQuant ! 10 * freq;
-// intro (hat only) =
-//       into bars -1 (off-beat)
-//       times measure
-//       times time scale 2 for all except hi-hat)
-var introDelay = (introN-1) * measure.sum * 2;
-// Tom is specific - it appears only ater the first break.
-var introTom = introN + (fullN * 4 + 3) * measure.sum * 2;
 var makePattern = { arg inst, amp, seq;
     Pbind(
         \instrument, inst,
@@ -182,8 +218,8 @@ var patt = Pdef(
         ),
 
         // KICK
-        introDelay, Pbind(
-            \instrument, \kick_acoustic,
+        0.0, Pbind(
+            \instrument, \kick_synth,
             \dur, Pseq(measure, inf) * 2,
             \amp, Pseq([
                 // // intro silent (hat only)
@@ -214,7 +250,7 @@ var patt = Pdef(
         ),
 
         // SNARE
-        introDelay, Pbind(
+        0.0, Pbind(
             \instrument, \snare,
             \dur, Pseq(measure, inf) * 2,
             \amp, Pseq([
@@ -244,7 +280,7 @@ var patt = Pdef(
         ),
 
         // TOM
-        introTom, Pbind(
+        0.0, Pbind(
             \instrument, \tom,
             \dur, Pseq(measure, inf) * 2,
             \amp, Pseq([
